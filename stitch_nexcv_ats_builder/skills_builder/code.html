@@ -1,0 +1,258 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#dae2fd",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-container": "#2563eb",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface-variant": "#434655",
+                    "on-surface": "#131b2e",
+                    "secondary": "#4b41e1",
+                    "on-tertiary-fixed": "#002113",
+                    "tertiary-container": "#007d55",
+                    "error": "#ba1a1a",
+                    "tertiary": "#006242",
+                    "on-background": "#131b2e",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#0f0069",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary-container": "#645efb",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "inverse-surface": "#283044",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#0053db",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#00174b",
+                    "primary": "#004ac6",
+                    "on-primary-container": "#eeefff",
+                    "outline": "#737686",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-container-high": "#e2e7ff",
+                    "surface": "#faf8ff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d2d9f4",
+                    "tertiary-fixed": "#6ffbbe",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#eaedff",
+                    "secondary-fixed": "#e2dfff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "surface-variant": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "background": "#faf8ff",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-container": "#bdffdb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "gutter": "16px",
+                    "container-margin": "20px",
+                    "unit": "4px",
+                    "stack-sm": "8px",
+                    "stack-lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 dark:bg-on-surface/80 backdrop-blur-md border-b border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-center h-16 px-container-margin w-full max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A clean, professional headshot of a smiling young professional in a light-colored blazer, set against a blurred office background. The lighting is bright and airy, following a high-key light mode aesthetic. The color palette is neutral with soft blue and white tones to match a premium corporate tech UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6ceB9cAPaGbMhHQPbXnYPIZIBqhfxEjs-Eg8wRY6Hk-XWz69EDhoRAhbS_lN4bSPjpr7DW5dOrgpZatNuKYssz8uDUJafdyLbtXbNwGjkFC5htzY6lR5ochbxotUO4RqVDhHTXIJLyOnK9OjuEzg8kaBQu4GOUMEINSAWtgO6thzMHtBU0NvGJ4HCd2fo23emVX9ySRmXOfSJUFT0P8F8lUO4tQ04H0tyXK_kzNqHQj8BcFihCWLhkW-zzvixUs77JEbCU39u9w">
+</div>
+<span class="font-headline-md-mobile text-headline-md-mobile font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">NexCV</span>
+</div>
+<button class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined">auto_awesome</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-24 pb-32 px-container-margin w-full max-w-md mx-auto">
+<!-- Progress Header -->
+<div class="mb-stack-lg">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider">Step 5 of 6</span>
+<span class="font-label-md text-label-md text-on-surface-variant">65% Complete</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="w-[65%] h-full bg-primary transition-all duration-500"></div>
+</div>
+</div>
+<!-- Page Intro -->
+<div class="mb-stack-lg">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface mb-2">Technical Skills</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Showcase your expertise. We recommend adding at least 5 key skills for a Product Designer role.</p>
+</div>
+<!-- Search Section -->
+<div class="mb-stack-lg">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-low border-none rounded-xl font-body-md text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary/20 transition-all" placeholder="Search skills (e.g. Figma, Python)" type="text">
+</div>
+</div>
+<!-- AI Suggested Skills (Bento Style) -->
+<section class="mb-stack-lg">
+<div class="flex items-center gap-2 mb-stack-md">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Suggested for You</h2>
+</div>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container transition-colors rounded-full font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    User Research
+                </button>
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container transition-colors rounded-full font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Prototyping
+                </button>
+<button class="px-4 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: &quot;FILL&quot; 1;">check</span>
+                    Figma
+                </button>
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container transition-colors rounded-full font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Design Systems
+                </button>
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary-container hover:text-on-primary-container transition-colors rounded-full font-label-md text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    React Native
+                </button>
+</div>
+</section>
+<!-- Added Skills List -->
+<section class="space-y-4">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-stack-md">Your Skill Set</h2>
+<!-- Skill Card 1 -->
+<div class="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">UI/UX Design</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Core Competency</p>
+</div>
+<button class="text-on-surface-variant/50 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Beginner</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Intermediate</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md bg-primary text-on-primary shadow-md">Expert</button>
+</div>
+</div>
+<!-- Skill Card 2 -->
+<div class="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Data Analysis</h3>
+<p class="font-label-md text-label-md text-on-surface-variant">Added via Resume</p>
+</div>
+<button class="text-on-surface-variant/50 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Beginner</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md bg-primary text-on-primary shadow-md">Intermediate</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Expert</button>
+</div>
+</div>
+<!-- Skill Card 3 (AI Enhanced) -->
+<div class="p-4 bg-surface-container-lowest border border-primary/20 rounded-xl shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2 opacity-10">
+<span class="material-symbols-outlined text-[48px]">auto_awesome</span>
+</div>
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Adobe Creative Suite</h3>
+<span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+</div>
+<button class="text-on-surface-variant/50 hover:text-error transition-colors">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Beginner</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md border border-outline-variant/30 text-on-surface-variant bg-surface hover:bg-surface-container">Intermediate</button>
+<button class="py-2 px-1 rounded-lg text-center font-label-md bg-primary text-on-primary shadow-md">Expert</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Footer (Transactional Focus: No Nav) -->
+<footer class="fixed bottom-0 left-0 w-full bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 p-container-margin z-50">
+<div class="max-w-md mx-auto flex gap-3">
+<button class="flex-1 h-14 rounded-xl border border-outline-variant text-on-surface-variant font-headline-md flex items-center justify-center active:scale-95 transition-all">
+                Back
+            </button>
+<button class="flex-[2] h-14 rounded-xl bg-gradient-to-r from-primary to-secondary text-on-primary font-headline-md shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-95 transition-all">
+                Save &amp; Continue
+                <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</footer>
+<!-- Bottom Nav Suppression (Transactional Page Policy) -->
+<!-- The BottomNavBar from JSON is suppressed because this is a focused task/sub-page journey -->
+
+
+
+
+</body></html>

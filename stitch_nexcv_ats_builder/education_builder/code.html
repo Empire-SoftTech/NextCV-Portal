@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ResumeNova - Education</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #faf8ff;
+        }
+        .headline-font {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-fixed-variant": "#003ea8",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#dae2fd",
+                    "primary-fixed": "#dbe1ff",
+                    "primary-container": "#2563eb",
+                    "on-secondary-container": "#fffbff",
+                    "on-surface-variant": "#434655",
+                    "on-surface": "#131b2e",
+                    "secondary": "#4b41e1",
+                    "on-tertiary-fixed": "#002113",
+                    "tertiary-container": "#007d55",
+                    "error": "#ba1a1a",
+                    "tertiary": "#006242",
+                    "on-background": "#131b2e",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed": "#0f0069",
+                    "tertiary-fixed-dim": "#4edea3",
+                    "secondary-container": "#645efb",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "inverse-surface": "#283044",
+                    "error-container": "#ffdad6",
+                    "surface-tint": "#0053db",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "on-primary-fixed": "#00174b",
+                    "primary": "#004ac6",
+                    "on-primary-container": "#eeefff",
+                    "outline": "#737686",
+                    "inverse-on-surface": "#eef0ff",
+                    "surface-container-high": "#e2e7ff",
+                    "surface": "#faf8ff",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#d2d9f4",
+                    "tertiary-fixed": "#6ffbbe",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-error-container": "#93000a",
+                    "surface-container": "#eaedff",
+                    "secondary-fixed": "#e2dfff",
+                    "on-tertiary-fixed-variant": "#005236",
+                    "surface-variant": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "inverse-primary": "#b4c5ff",
+                    "background": "#faf8ff",
+                    "surface-container-low": "#f2f3ff",
+                    "surface-bright": "#faf8ff",
+                    "on-tertiary-container": "#bdffdb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "gutter": "16px",
+                    "container-margin": "20px",
+                    "unit": "4px",
+                    "stack-sm": "8px",
+                    "stack-lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-xl-mobile": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface antialiased min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-center h-16 px-container-margin w-full max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a young adult smiling warmly against a soft-focus studio background. The lighting is bright and airy, consistent with a clean, high-end corporate aesthetic. The overall mood is approachable, confident, and professional, utilizing a natural color palette that complements the light-themed UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC7cTEPhneZPdGoScxjqxtG9z5vR6cJPvzHDcie8wZHRCiRnQ9zDb7xCGSbcJFzxeYZFIcxVIMeZlGA27qT-JHexBbD5uzHuDqPudYSOGG-_VPOOq3EGyODPVYRHJtp9sYgC22OFLOtSsZMHE-MFVsNGP8Kh_z9aIYmfLtFA4XPBLyA5OKg5ptIVfp0BC-bVVAe6kPL3Z5fTASWiLaYJuhj6sV_RnG-4y0CdQnA9xsqgoyqYGG-wrVyDKnvEKxlqKPEDuUAQDwPg">
+</div>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">NextCV</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-container-margin w-full max-w-md mx-auto">
+<!-- Step Indicator -->
+<div class="mb-stack-lg">
+<div class="flex justify-between items-end mb-2">
+<span class="font-label-md text-label-md text-primary font-bold">STEP 4 OF 6</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Education</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full w-1/2 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+</div>
+</div>
+<!-- Header Section -->
+<header class="mb-stack-lg">
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface">Tell us about your education</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Add your academic background to show employers your qualifications.</p>
+</header>
+<!-- Education Form Card -->
+<div class="space-y-stack-lg">
+<!-- Academic Entry 1 -->
+<section class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm relative">
+<div class="absolute -top-3 right-5 bg-tertiary text-on-tertiary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
+                    Complete
+                </div>
+<div class="space-y-stack-md">
+<div class="grid grid-cols-1 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">School/University</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface" type="text" value="Stanford University">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Degree</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface" type="text" value="Bachelor of Science">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Field of Study</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface" type="text" value="Computer Science">
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Graduation Date</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface" type="text" value="May 2022">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">GPA</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface" type="text" value="3.9">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Academic Entry 2 (New/Active) -->
+<section class="bg-surface-container-lowest p-5 rounded-xl border-2 border-primary/20 shadow-md">
+<div class="flex items-center gap-2 mb-stack-md text-primary">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<h3 class="font-headline-md text-headline-md">New Education</h3>
+</div>
+<div class="space-y-stack-md">
+<div class="grid grid-cols-1 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">School/University</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface outline-none" placeholder="e.g. Harvard University" type="text">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Degree</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface outline-none" placeholder="e.g. Master of Arts" type="text">
+</div>
+<!-- AI Assisted Field -->
+<div class="space-y-stack-sm relative">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1 flex items-center gap-1">
+                                Field of Study
+                                <span class="material-symbols-outlined text-[14px] text-secondary" data-icon="sparkles" style="font-variation-settings: &quot;FILL&quot; 1;">colors_spark</span>
+</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface outline-none" placeholder="e.g. Business Administration" type="text">
+</div>
+<div class="grid grid-cols-2 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Graduation Date</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface outline-none" placeholder="MM/YYYY" type="text">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">GPA (Optional)</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all font-body-md text-on-surface outline-none" placeholder="X.X" type="text">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Add Another Button -->
+<button class="w-full py-4 flex items-center justify-center gap-2 border-2 border-dashed border-outline-variant/30 rounded-xl text-primary font-bold hover:bg-primary/5 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Add Another Education
+            </button>
+</div>
+<!-- Tips Section (Bento Style) -->
+<div class="mt-stack-lg p-5 bg-surface-container-high/40 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary" data-icon="lightbulb">lightbulb</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Nova Tip</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">List your degrees in reverse chronological order, starting with the most recent one. Only include GPA if it's 3.5 or higher.</p>
+</div>
+</main>
+<!-- Sticky Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-center h-24 px-container-margin w-full max-w-md mx-auto gap-4">
+<button class="flex-1 h-14 rounded-xl border border-outline-variant flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+                Back
+            </button>
+<button class="flex-[2] h-14 bg-gradient-to-r from-primary to-secondary text-on-primary rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity active:scale-95 duration-200">
+                Save &amp; Continue
+                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</footer>
+<!-- Bottom Nav Bar (Mobile Navigation Shell - suppressed for task-focused flow) -->
+<!-- The BottomNavBar is hidden here as per the "Task-Focused" rule in Shell Visibility & Relevance -->
+
+
+
+
+</body></html>

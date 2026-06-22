@@ -1,0 +1,182 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ResumeNova Onboarding - AI Enhancement</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#b4c5ff",
+                        "primary": "#004ac6",
+                        "outline": "#737686",
+                        "on-primary-container": "#eeefff",
+                        "surface-tint": "#0053db",
+                        "surface-container-low": "#f2f3ff",
+                        "surface-container-high": "#e2e7ff",
+                        "on-secondary-container": "#fffbff",
+                        "surface-variant": "#dae2fd",
+                        "on-tertiary-fixed": "#002113",
+                        "on-secondary-fixed": "#0f0069",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-dim": "#d2d9f4",
+                        "primary-container": "#2563eb",
+                        "surface-container": "#eaedff",
+                        "on-background": "#131b2e",
+                        "secondary-container": "#645efb",
+                        "surface": "#faf8ff",
+                        "background": "#faf8ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#6ffbbe",
+                        "secondary-fixed": "#e2dfff",
+                        "surface-bright": "#faf8ff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#007d55",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-surface-variant": "#434655",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#dae2fd",
+                        "outline-variant": "#c3c6d7",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#283044",
+                        "secondary": "#4b41e1",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-container": "#bdffdb",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed": "#00174b",
+                        "inverse-on-surface": "#eef0ff",
+                        "tertiary": "#006242",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-surface": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "24px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "gutter": "16px",
+                        "container-margin": "20px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-xl-mobile": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center overflow-hidden">
+<!-- Top AppBar (Simplified for Onboarding) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center h-16 px-container-margin max-w-md mx-auto">
+<div class="font-headline-md-mobile text-headline-md-mobile font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            NextCV</div>
+<button class="text-on-surface-variant font-label-md px-4 py-2 hover:bg-surface-container-high/50 rounded-full transition-colors">
+            Skip
+        </button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 w-full max-w-md flex flex-col justify-center px-container-margin pt-16 pb-32">
+<!-- Illustration Section (Bento/Card Hybrid) -->
+<div class="relative w-full aspect-square flex items-center justify-center mb-stack-lg">
+<!-- Decorative Glow -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-full blur-3xl"></div>
+<!-- Main Content Card -->
+<div class="relative w-full bg-surface-container-lowest rounded-3xl p-stack-lg shadow-[0_4px_12px_rgba(15,23,42,0.05)] border border-outline-variant/10 overflow-hidden">
+<!-- Floating AI Tokens -->
+<div class="absolute top-4 right-4 bg-primary-container/10 p-2 rounded-xl border border-primary/20">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+</div>
+<!-- Abstract Illustration Area -->
+<div class="relative h-64 w-full flex items-center justify-center">
+<img class="w-full h-full object-contain" data-alt="A sophisticated and clean digital illustration of a sleek modern resume document being transformed by a glowing ethereal magic wand. Soft beams of indigo and deep blue light radiate from the wand's tip, illuminating professional text summaries as they crystallize into high-impact job descriptions. The background is a minimal light-mode space with floating abstract data nodes and soft gradients, conveying an advanced AI-powered career advancement aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRX06rQDo4q5PPKDxJtPNHqoPhzOleamAV6J4Tu2aSDk6svpQoH2FuH-5v0bY-gL8IHRB1hcOCqFAP-eENb-u7zizRmEqfd-cJovDvREzUdyC-YuoEVYpCEuUxjSU5ses6h1JpqmIX6ig0O3w6sP-UIs0xC-4La05XnjWpGLOqcvgLmFAp-F78OuqhvUxuz6W_MjEddYXI-1zQgG4k0Jnpf4FC9vRbxQFudM7nD20Hsxcx-7WHAqVboasa6y8B0EmKOgLVR2RXiA">
+</div>
+<!-- Glassmorphism Preview Card Overlay -->
+<div class="absolute bottom-6 left-6 right-6 bg-glass border border-white/40 p-stack-md rounded-2xl shadow-lg">
+<div class="flex items-center gap-stack-sm mb-2">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="h-2 w-24 bg-outline-variant/30 rounded-full"></div>
+</div>
+<div class="space-y-2">
+<div class="h-3 w-full bg-primary/5 rounded-full"></div>
+<div class="h-3 w-3/4 bg-primary/5 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="text-center space-y-stack-md">
+<h1 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface">
+                Improve your resume with AI
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-[90%] mx-auto">
+                Use our advanced AI to write high-impact summaries and job descriptions that stand out.
+            </p>
+</div>
+</main>
+<!-- Bottom Actions & Pagination -->
+<div class="fixed bottom-0 left-0 w-full max-w-md mx-auto p-container-margin bg-gradient-to-t from-background via-background to-transparent pt-8">
+<!-- Pagination Dots -->
+<div class="flex justify-center gap-2 mb-stack-lg">
+<div class="w-2 h-2 rounded-full bg-outline-variant/40"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant/40"></div>
+<div class="w-6 h-2 rounded-full bg-primary"></div>
+</div>
+<!-- Primary Action Button -->
+<button class="w-full h-14 bg-gradient-to-r from-primary to-secondary text-on-primary font-headline-md rounded-2xl shadow-lg active:scale-95 transition-transform duration-200">
+            Get Started
+        </button>
+</div>
+
+
+</body></html>

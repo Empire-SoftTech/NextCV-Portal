@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Personal Info - ResumeNova</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface": "#faf8ff",
+            "surface-dim": "#d2d9f4",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary": "#ffffff",
+            "secondary-container": "#645efb",
+            "on-tertiary-container": "#bdffdb",
+            "primary-fixed-dim": "#b4c5ff",
+            "surface-container": "#eaedff",
+            "inverse-primary": "#b4c5ff",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "tertiary": "#006242",
+            "secondary": "#4b41e1",
+            "on-primary-fixed-variant": "#003ea8",
+            "background": "#faf8ff",
+            "on-tertiary-fixed": "#002113",
+            "on-surface-variant": "#434655",
+            "surface-tint": "#0053db",
+            "on-primary-container": "#eeefff",
+            "tertiary-fixed": "#6ffbbe",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            "primary": "#004ac6",
+            "surface-bright": "#faf8ff",
+            "outline": "#737686",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#0f0069",
+            "outline-variant": "#c3c6d7",
+            "surface-container-highest": "#dae2fd",
+            "on-error": "#ffffff",
+            "on-secondary-container": "#fffbff",
+            "tertiary-fixed-dim": "#4edea3",
+            "on-background": "#131b2e",
+            "on-tertiary-fixed-variant": "#005236",
+            "surface-container-high": "#e2e7ff",
+            "error": "#ba1a1a",
+            "surface-variant": "#dae2fd",
+            "inverse-on-surface": "#eef0ff",
+            "primary-container": "#2563eb",
+            "tertiary-container": "#007d55",
+            "error-container": "#ffdad6",
+            "on-primary-fixed": "#00174b",
+            "primary-fixed": "#dbe1ff",
+            "secondary-fixed": "#e2dfff",
+            "on-secondary-fixed-variant": "#3323cc",
+            "secondary-fixed-dim": "#c3c0ff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "16px",
+            "stack-md": "16px",
+            "container-margin": "20px",
+            "unit": "4px",
+            "stack-lg": "24px",
+            "stack-sm": "8px"
+          },
+          "fontFamily": {
+            "headline-xl": ["Plus Jakarta Sans"],
+            "label-md": ["Inter"],
+            "body-md": ["Inter"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "body-lg": ["Inter"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "headline-xl-mobile": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-xl": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+            "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+            "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "headline-xl-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+      background-color: #f8faff;
+    }
+  </style>
+</head>
+<body class="bg-[#f8faff] text-on-surface font-body-md antialiased min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/10 shadow-sm">
+<div class="flex justify-between items-center h-16 px-container-margin w-full max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuArMJtrPGm6KoQDf_MMuoFRJbFwFfwkfSMdXJ6zcGVKxK7cjD7y-h_-d9Yi2BpP1AtXHJywXqbr17byz2P-KBR6yUv9wt6HcVnZPVIgjzh0_eIHqdwaRnuzijLtXic7iVkA5KxHNSA-igre0FxhthxGQDmajB6IfOEPXaF7t8713Q8ZCZTbyJKF51p36zrOvLo6E2_tt0L8-RlC1ZZFMD-FqT4mekGULECSxYCo73kwM9yPPY74Pea8dQp_BmX5hiTkuJ9szX9mBQ">
+</div>
+<h1 class="font-headline-md-mobile text-headline-md-mobile font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">NextCV</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high/50 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-container-margin w-full max-w-md mx-auto">
+<!-- Progress Indicator -->
+<div class="mb-stack-lg">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-md text-label-md text-primary font-bold">STEP 1 OF 6</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Personal Info</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full w-1/4 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+</div>
+</div>
+<!-- Header Section -->
+<header class="mb-stack-lg">
+<h2 class="font-headline-xl-mobile text-headline-xl-mobile text-on-surface">Let's start with your contact info</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">This is the first thing employers see. Make sure it's accurate.</p>
+</header>
+<div class="space-y-stack-lg">
+<!-- Personal Info Card -->
+<section class="bg-surface-container-lowest p-5 rounded-xl border border-outline-variant/10 shadow-sm">
+<div class="flex items-center gap-3 mb-stack-md text-primary">
+<span class="material-symbols-outlined">person</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Personal Info</h3>
+</div>
+<div class="space-y-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Full Name</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="Johnathan Doe" type="text" value="Johnathan Doe">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Job Title</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="Senior Product Designer" type="text" value="Senior Product Designer">
+</div>
+<div class="grid grid-cols-1 gap-stack-md">
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Email</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="john@example.com" type="email" value="john@example.com">
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Phone</label>
+<input class="w-full h-12 px-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="+1 (555) 000-0000" type="tel" value="+1 (555) 000-0000">
+</div>
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">Location</label>
+<div class="relative">
+<input class="w-full h-12 pl-10 pr-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="San Francisco, CA" type="text" value="San Francisco, CA">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-md">location_on</span>
+</div>
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">LinkedIn Profile</label>
+<div class="relative">
+<input class="w-full h-12 pl-10 pr-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="linkedin.com/in/username" type="url">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-md">link</span>
+</div>
+</div>
+<div class="space-y-stack-sm">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1">GitHub Profile</label>
+<div class="relative">
+<input class="w-full h-12 pl-10 pr-4 bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-primary/20 transition-all font-body-md text-on-surface" placeholder="github.com/username" type="url" value="github.com/username">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-md">code</span>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Summary Tip Component -->
+<div class="p-5 bg-surface-container-high/40 rounded-xl border border-outline-variant/10">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: &quot;FILL&quot; 1;">auto_awesome</span>
+<h4 class="font-headline-md text-headline-md text-on-surface">Nova Tip: Personal Summary</h4>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">We can generate a high-impact professional summary once you've filled in your basic details. It helps you stand out immediately to recruiters.</p>
+<button class="mt-4 px-6 py-2 rounded-full bg-primary text-on-primary text-label-md font-bold shadow-md active:scale-95 transition-all">Draft with AI</button>
+</div>
+</div>
+</main>
+<!-- Sticky Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-t border-outline-variant/20 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-center h-24 px-container-margin w-full max-w-md mx-auto gap-4">
+<button class="flex-1 h-14 rounded-xl border border-outline-variant flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 duration-200">
+        Back
+      </button>
+<button class="flex-[2] h-14 bg-gradient-to-r from-primary to-secondary text-on-primary rounded-xl flex items-center justify-center gap-2 font-bold shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity active:scale-95 duration-200">
+        Save &amp; Continue
+        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</footer>
+
+
+
+
+
+
+</body></html>
