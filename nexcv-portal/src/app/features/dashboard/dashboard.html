@@ -1,0 +1,363 @@
+<ng-template #vbars let-labels="labels" let-values="values" let-name="name">
+  @if (values.length === 0) {
+    <p class="text-sm text-gray-500">No data in this window.</p>
+  } @else {
+    <div class="flex items-end gap-px h-24" role="img" [attr.aria-label]="name">
+      @for (v of values; track $index) {
+        <div
+          class="flex-1 bg-blue-500 rounded-t min-w-px"
+          [style.height.%]="bar(v, max(values))"
+          [title]="labels[$index] + ': ' + v"
+        ></div>
+      }
+    </div>
+    <div class="flex justify-between text-xs text-gray-400 mt-1">
+      <span>{{ labels[0] }}</span>
+      <span>{{ labels[labels.length - 1] }}</span>
+    </div>
+  }
+</ng-template>
+
+<ng-template #hbars let-rows="rows">
+  @if (rows.length === 0) {
+    <p class="text-sm text-gray-500">No data.</p>
+  } @else {
+    <div class="space-y-1">
+      @for (r of rows; track r.key) {
+        <div class="flex items-center gap-3 text-xs">
+          <span class="w-28 truncate text-gray-600" [title]="r.key">{{ r.key }}</span>
+          <div class="flex-1 bg-gray-100 rounded h-3">
+            <div
+              class="bg-blue-500 h-3 rounded"
+              [style.width.%]="bar(r.count, max(counts(rows)))"
+            ></div>
+          </div>
+          <span class="w-12 text-right">{{ r.count | number }}</span>
+        </div>
+      }
+    </div>
+  }
+</ng-template>
+
+<div class="p-4 sm:p-8 max-w-6xl space-y-8">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="text-xl font-semibold">Dashboard</h1>
+      @if (data(); as d) {
+        <p class="text-xs text-gray-500">Updated {{ d.generatedAt | date: 'medium' }}</p>
+      }
+    </div>
+    <div class="flex items-end gap-3 text-sm">
+      <div>
+        <label class="block text-xs text-gray-500 mb-1" for="days">Period</label>
+        <select
+          id="days"
+          class="border rounded px-2 py-1"
+          (change)="setDays($any($event.target).value)"
+        >
+          @for (o of daysOptions; track o) {
+            <option [value]="o" [selected]="o === days()">Last {{ o }} days</option>
+          }
+        </select>
+      </div>
+      <button
+        type="button"
+        (click)="refresh()"
+        [disabled]="loading()"
+        class="bg-blue-600 text-white rounded px-4 py-1.5 disabled:opacity-50"
+      >
+        {{ loading() ? 'Loading…' : 'Refresh' }}
+      </button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <div class="text-sm flex items-center gap-3" role="alert">
+      <span class="text-red-600">{{ error() }}</span>
+      <button type="button" (click)="refresh()" class="border rounded px-3 py-1 hover:bg-gray-100">
+        Retry
+      </button>
+    </div>
+  }
+
+  @if (data(); as d) {
+    <!-- Users -->
+    <section class="space-y-4" aria-label="Users">
+      <h2 class="font-medium">Users</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Total users</p>
+          <p class="text-2xl font-semibold">{{ d.users.total | number }}</p>
+        </div>
+        <a routerLink="/app-users" class="bg-white border rounded-lg p-4 hover:bg-gray-50">
+          <p class="text-xs text-gray-500">Active</p>
+          <p class="text-2xl font-semibold">{{ d.users.active | number }}</p>
+        </a>
+        <a routerLink="/app-users" class="bg-white border rounded-lg p-4 hover:bg-gray-50">
+          <p class="text-xs text-gray-500">Inactive</p>
+          <p class="text-2xl font-semibold">{{ d.users.inactive | number }}</p>
+        </a>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Active last 7 days</p>
+          <p class="text-2xl font-semibold">{{ d.users.activeLast7Days | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Active last 30 days</p>
+          <p class="text-2xl font-semibold">{{ d.users.activeLast30Days | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">New in last {{ d.days }} days</p>
+          <p class="text-2xl font-semibold">{{ d.users.newInPeriod | number }}</p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4">
+        <div class="bg-white border rounded-lg p-4">
+          <h3 class="text-sm font-medium mb-2">Signups per day</h3>
+          <ng-container
+            *ngTemplateOutlet="
+              vbars;
+              context: {
+                labels: dates(d.users.signupsByDay),
+                values: counts(d.users.signupsByDay),
+                name: 'Signups per day',
+              }
+            "
+          />
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <h3 class="text-sm font-medium mb-2">By platform</h3>
+          <ng-container *ngTemplateOutlet="hbars; context: { rows: d.users.byPlatform }" />
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <h3 class="text-sm font-medium mb-2">By app version</h3>
+          <ng-container *ngTemplateOutlet="hbars; context: { rows: d.users.byAppVersion }" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Push campaigns -->
+    <section class="space-y-4" aria-label="Push campaigns">
+      <h2 class="font-medium">Push campaigns</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Sent</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.sent | number }}</p>
+          <p class="text-xs text-gray-500">of {{ d.campaigns.total | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Pending</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.pending | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Failed</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.failed | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Delivered</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.delivered | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Delivery failures</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.deliveryFailures | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Opens</p>
+          <p class="text-2xl font-semibold">{{ d.campaigns.opens | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Open rate</p>
+          <p class="text-2xl font-semibold" data-testid="open-rate">
+            {{ pct(d.campaigns.openRatePct) }}
+          </p>
+        </div>
+      </div>
+      <div class="bg-white border rounded-lg p-4 space-y-3">
+        <div class="space-y-1 text-xs">
+          <p class="text-gray-500">Delivered vs failures</p>
+          <div class="flex h-3 rounded overflow-hidden bg-gray-100">
+            <div
+              class="bg-green-500"
+              [style.width.%]="share(d.campaigns.delivered, d.campaigns.deliveryFailures)"
+            ></div>
+            <div
+              class="bg-red-500"
+              [style.width.%]="share(d.campaigns.deliveryFailures, d.campaigns.delivered)"
+            ></div>
+          </div>
+        </div>
+        <h3 class="text-sm font-medium">Recent campaigns</h3>
+        @if (d.campaigns.recent.length === 0) {
+          <p class="text-sm text-gray-500">No campaigns yet.</p>
+        } @else {
+          <ul class="divide-y text-sm">
+            @for (c of d.campaigns.recent; track c.id) {
+              <li class="py-2 flex flex-wrap items-center justify-between gap-2">
+                <a [routerLink]="['/campaigns', c.id]" class="text-blue-700 hover:underline">
+                  {{ c.title }}
+                </a>
+                <span class="text-xs text-gray-500">
+                  {{ c.sentAt ? (c.sentAt | date: 'medium') : 'Not sent' }} ·
+                  {{ c.recipients === null ? '—' : (c.recipients | number) }} recipients ·
+                  {{ c.opens | number }} opens
+                </span>
+              </li>
+            }
+          </ul>
+        }
+      </div>
+    </section>
+
+    <!-- AI -->
+    <section class="space-y-4" aria-label="AI usage and cost">
+      <div class="flex items-center justify-between">
+        <h2 class="font-medium">AI usage &amp; cost</h2>
+        <a routerLink="/ai/usage" class="text-sm text-blue-700 hover:underline">Details</a>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Requests</p>
+          <p class="text-2xl font-semibold">{{ d.ai.requests | number }}</p>
+          <p class="text-xs text-gray-500">
+            {{ d.ai.succeeded | number }} ok · {{ d.ai.failed | number }} failed
+          </p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Success rate</p>
+          <p class="text-2xl font-semibold" data-testid="success-rate">
+            {{ pct(d.ai.successRatePct) }}
+          </p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Tokens</p>
+          <p class="text-2xl font-semibold">{{ d.ai.totalTokens | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Estimated cost</p>
+          <p class="text-2xl font-semibold">
+            {{ d.ai.estimatedCost | number: '1.2-4' }} {{ d.ai.currency }}
+          </p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Credits consumed</p>
+          <p class="text-2xl font-semibold">{{ d.ai.creditsConsumed | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Avg latency</p>
+          <p class="text-2xl font-semibold">{{ d.ai.avgLatencyMs | number: '1.0-0' }} ms</p>
+        </div>
+      </div>
+      <div class="bg-white border rounded-lg p-4">
+        <h3 class="text-sm font-medium mb-2">Requests per day</h3>
+        <ng-container
+          *ngTemplateOutlet="
+            vbars;
+            context: {
+              labels: dates(d.ai.daily),
+              values: requests(d.ai.daily),
+              name: 'AI requests per day',
+            }
+          "
+        />
+      </div>
+    </section>
+
+    <!-- Store (RevenueCat, verified) -->
+    <section class="space-y-4" aria-label="Store">
+      <h2 class="font-medium">
+        Store <span class="text-xs font-normal text-gray-500">(RevenueCat, verified)</span>
+      </h2>
+      @if (!d.store || !d.store.available) {
+        <p
+          class="text-sm text-gray-500 bg-gray-100 border rounded-lg p-4"
+          data-testid="store-unavailable"
+        >
+          {{ d.store?.unavailableReason || 'Store metrics are not available on this backend yet.' }}
+        </p>
+      } @else {
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4" data-testid="store-metrics">
+          @for (m of d.store.metrics; track m.id) {
+            <div class="bg-white border rounded-lg p-4">
+              <p class="text-xs text-gray-500">{{ m.name }}</p>
+              <p class="text-2xl font-semibold">{{ metric(m, d.store.currency) }}</p>
+              @if (period(m.period); as p) {
+                <p class="text-xs text-gray-400">{{ p }}</p>
+              }
+            </div>
+          }
+        </div>
+        @if (d.store.updatedAt) {
+          <p class="text-xs text-gray-400">Updated {{ d.store.updatedAt | date: 'medium' }}</p>
+        }
+      }
+    </section>
+
+    <!-- Revenue -->
+    <section class="space-y-4" aria-label="Revenue">
+      <h2 class="font-medium">Template purchases <span class="text-xs font-normal text-gray-500">(app-reported)</span></h2>
+      @if (!d.revenue.available) {
+        <p
+          class="text-sm text-gray-500 bg-gray-100 border rounded-lg p-4"
+          data-testid="revenue-unavailable"
+        >
+          {{ d.revenue.unavailableReason || 'Purchase data is not available.' }}
+        </p>
+      } @else {
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Template purchases</p>
+            <p class="text-2xl font-semibold">{{ d.revenue.purchases | number }}</p>
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Purchasers</p>
+            <p class="text-2xl font-semibold">{{ d.revenue.purchasers | number }}</p>
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Purchases in last {{ d.days }} days</p>
+            <p class="text-2xl font-semibold">{{ d.revenue.purchasesInPeriod | number }}</p>
+          </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-white border rounded-lg p-4">
+            <h3 class="text-sm font-medium mb-2">Amount by currency <span class="text-xs font-normal text-gray-500">(unverified)</span></h3>
+            @if (d.revenue.byCurrency.length === 0) {
+              <p class="text-sm text-gray-500">No amounts recorded.</p>
+            } @else {
+              <ul class="text-sm space-y-1">
+                @for (c of d.revenue.byCurrency; track c.currency) {
+                  <li class="flex justify-between">
+                    <span class="text-gray-600">{{ c.currency }}</span>
+                    <span class="font-medium">{{ c.amount | number: '1.2-2' }}</span>
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <h3 class="text-sm font-medium mb-2">Top templates</h3>
+            <ng-container *ngTemplateOutlet="hbars; context: { rows: d.revenue.topTemplates }" />
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <h3 class="text-sm font-medium mb-2">Purchases per day</h3>
+            <ng-container
+              *ngTemplateOutlet="
+                vbars;
+                context: {
+                  labels: dates(d.revenue.purchasesByDay),
+                  values: counts(d.revenue.purchasesByDay),
+                  name: 'Purchases per day',
+                }
+              "
+            />
+          </div>
+        </div>
+      }
+      @if (!d.revenue.proSubscribersAvailable) {
+        <p class="text-xs text-gray-500" data-testid="pro-note">
+          Subscription metrics unavailable: RevenueCat not connected.
+        </p>
+      }
+    </section>
+  } @else if (loading()) {
+    <p class="text-sm text-gray-500">Loading…</p>
+  }
+</div>

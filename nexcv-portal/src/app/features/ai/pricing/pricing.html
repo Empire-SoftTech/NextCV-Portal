@@ -1,0 +1,107 @@
+<div class="p-8 max-w-5xl space-y-8">
+  <h1 class="text-xl font-semibold">AI model pricing</h1>
+
+  @if (error()) {
+    <p class="text-red-600 text-sm">{{ error() }}</p>
+  }
+  @if (success()) {
+    <p class="text-green-700 text-sm">{{ success() }}</p>
+  }
+
+  <section>
+    <h2 class="font-medium mb-3">Price versions</h2>
+    @if (loading()) {
+      <p class="text-sm text-gray-500">Loading…</p>
+    } @else {
+      <div class="bg-white border rounded-lg overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+              <th class="px-3 py-2">Provider</th>
+              <th class="px-3 py-2">Model</th>
+              <th class="px-3 py-2 text-right">Input / 1M</th>
+              <th class="px-3 py-2 text-right">Output / 1M</th>
+              <th class="px-3 py-2">From</th>
+              <th class="px-3 py-2">To</th>
+              <th class="px-3 py-2">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of prices(); track p.id) {
+              <tr class="border-t">
+                <td class="px-3 py-2">{{ p.provider }}</td>
+                <td class="px-3 py-2">{{ p.model }}</td>
+                <td class="px-3 py-2 text-right">
+                  {{ p.inputPricePerMillion | number: '1.2-6' }} {{ p.currency }}
+                </td>
+                <td class="px-3 py-2 text-right">
+                  {{ p.outputPricePerMillion | number: '1.2-6' }} {{ p.currency }}
+                </td>
+                <td class="px-3 py-2 whitespace-nowrap">{{ p.effectiveFrom | date: 'medium' }}</td>
+                <td class="px-3 py-2 whitespace-nowrap">
+                  @if (p.effectiveTo) {
+                    {{ p.effectiveTo | date: 'medium' }}
+                  } @else {
+                    <span class="text-green-700">current</span>
+                  }
+                </td>
+                <td class="px-3 py-2 text-gray-500">{{ p.notes }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td class="px-3 py-3 text-gray-500" colspan="7">
+                  No prices configured — AI cost shows as unpriced until one is added.
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+
+  <section>
+    <h2 class="font-medium mb-3">Add a price version</h2>
+    <form [formGroup]="form" (ngSubmit)="add()" class="bg-white border rounded-lg p-4 grid grid-cols-2 gap-4 text-sm">
+      <div>
+        <label class="block text-xs font-medium mb-1" for="provider">Provider</label>
+        <select id="provider" formControlName="provider" class="w-full border rounded px-2 py-1.5">
+          <option value="GEMINI">GEMINI</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" for="model">Model id (exactly as configured)</label>
+        <input id="model" formControlName="model" class="w-full border rounded px-2 py-1.5" placeholder="gemini-3.1-flash-lite" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" for="in">Input price per 1M tokens</label>
+        <input id="in" type="number" step="any" formControlName="inputPricePerMillion" class="w-full border rounded px-2 py-1.5" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" for="out">Output price per 1M tokens</label>
+        <input id="out" type="number" step="any" formControlName="outputPricePerMillion" class="w-full border rounded px-2 py-1.5" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" for="cur">Currency (ISO 4217)</label>
+        <input id="cur" formControlName="currency" maxlength="3" class="w-full border rounded px-2 py-1.5 uppercase" />
+      </div>
+      <div>
+        <label class="block text-xs font-medium mb-1" for="eff">Effective from</label>
+        <input id="eff" type="datetime-local" formControlName="effectiveFrom" class="w-full border rounded px-2 py-1.5" />
+      </div>
+      <div class="col-span-2">
+        <label class="block text-xs font-medium mb-1" for="notes">Notes (source, date)</label>
+        <input id="notes" formControlName="notes" class="w-full border rounded px-2 py-1.5" />
+      </div>
+      <div class="col-span-2">
+        <button
+          type="submit"
+          [disabled]="form.invalid || saving()"
+          class="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
+        >
+          {{ saving() ? 'Saving…' : 'Add price' }}
+        </button>
+      </div>
+    </form>
+  </section>
+</div>

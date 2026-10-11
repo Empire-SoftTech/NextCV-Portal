@@ -1,0 +1,30 @@
+<div class="min-h-screen flex bg-gray-50">
+  <aside class="w-56 shrink-0 bg-white border-r flex flex-col">
+    <div class="px-5 py-4 text-lg font-semibold border-b">NextCV Admin</div>
+    <nav class="flex-1 p-3 space-y-5 text-sm">
+      @for (group of nav; track group.section) {
+        <div>
+          <p class="px-2 mb-1 text-xs font-semibold uppercase tracking-wide text-gray-400">
+            {{ group.section }}
+          </p>
+          @for (item of group.items; track item.path) {
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="bg-blue-50 text-blue-700 font-medium"
+              class="block rounded px-2 py-1.5 text-gray-700 hover:bg-gray-100"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </div>
+      }
+    </nav>
+    <div class="p-3 border-t text-xs text-gray-500">
+      <p class="truncate mb-2">{{ user()?.email }}</p>
+      <button type="button" (click)="logout()" class="text-red-600 hover:underline">Sign out</button>
+    </div>
+  </aside>
+  <main class="flex-1 min-w-0">
+    <router-outlet />
+  </main>
+</div>

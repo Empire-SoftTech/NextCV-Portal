@@ -1,0 +1,128 @@
+<div class="max-w-2xl mx-auto p-8">
+  <a routerLink="/campaigns" class="text-sm text-blue-600 hover:underline">← All campaigns</a>
+  <h1 class="text-xl font-semibold my-6">New campaign</h1>
+
+  <form [formGroup]="form" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-1">Title</label>
+      <input formControlName="title" class="w-full border rounded px-3 py-2" />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Body</label>
+      <textarea formControlName="body" rows="3" class="w-full border rounded px-3 py-2"></textarea>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Image (optional)</label>
+      @if (imageUrl()) {
+        <img [src]="imageUrl()" alt="Campaign image" class="max-h-32 rounded border mb-2" />
+        <button type="button" (click)="removeImage()" class="text-sm text-red-600 underline">
+          Remove image
+        </button>
+      } @else {
+        <input
+          type="file"
+          accept="image/png,image/jpeg,image/gif"
+          (change)="onImageSelected($event)"
+          [disabled]="uploading()"
+          class="text-sm"
+        />
+        @if (uploading()) {
+          <p class="text-sm text-gray-500 mt-1">Uploading…</p>
+        }
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-2">Target</label>
+      <div class="flex gap-4 mb-3">
+        <label class="flex items-center gap-2">
+          <input type="radio" formControlName="targetType" value="all" /> All users
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" formControlName="targetType" value="topic" /> Topic
+        </label>
+        <label class="flex items-center gap-2">
+          <input type="radio" formControlName="targetType" value="user" /> Single user
+        </label>
+      </div>
+
+      @if (form.controls.targetType.value === 'topic') {
+        <select formControlName="topic" class="w-full border rounded px-3 py-2">
+          @for (t of topics; track t) {
+            <option [value]="t">{{ t }}</option>
+          }
+        </select>
+      }
+
+      @if (form.controls.targetType.value === 'user') {
+        @if (selectedUser(); as u) {
+          <p class="text-sm border rounded px-3 py-2 flex justify-between">
+            <span>{{ u.display_name || u.displayName || u.email || u.uid }} ({{ u.email }})</span>
+            <button type="button" (click)="clearUser()" class="text-red-600 underline">Change</button>
+          </p>
+        } @else {
+          <input
+            formControlName="userQuery"
+            (input)="onUserQuery()"
+            placeholder="Search by email or name (min 2 characters)"
+            class="w-full border rounded px-3 py-2"
+          />
+          @if (searching()) {
+            <p class="text-sm text-gray-500 mt-1">Searching…</p>
+          }
+          @if (userHits().length > 0) {
+            <ul class="border rounded mt-1 divide-y bg-white">
+              @for (h of userHits(); track h.uid) {
+                <li>
+                  <button
+                    type="button"
+                    (click)="pickUser(h)"
+                    class="w-full text-left px-3 py-2 text-sm hover:bg-gray-50"
+                  >
+                    {{ h.display_name || h.displayName || h.email || h.uid }}
+                    <span class="text-gray-400">{{ h.email }}</span>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        }
+      }
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium mb-1">Schedule for (optional)</label>
+      <input type="datetime-local" formControlName="scheduledAt" class="border rounded px-3 py-2" />
+    </div>
+
+    @if (errorMsg()) {
+      <p class="text-red-600 text-sm">
+        {{ errorMsg() }}
+        @if (createdId(); as id) {
+          <a [routerLink]="['/campaigns', id]" class="underline">View campaign</a>
+        }
+      </p>
+    }
+
+    <div class="flex gap-3">
+      <button
+        type="button"
+        (click)="saveDraft()"
+        [disabled]="form.invalid || !targetReady || saving() || uploading()"
+        class="flex-1 border rounded py-2 disabled:opacity-50"
+      >
+        Save draft
+      </button>
+      <button
+        type="button"
+        (click)="sendNow()"
+        [disabled]="form.invalid || !targetReady || saving() || uploading() || createdId() !== null"
+        class="flex-1 bg-blue-600 text-white rounded py-2 disabled:opacity-50"
+      >
+        {{ saving() ? 'Working…' : 'Send now' }}
+      </button>
+    </div>
+  </form>
+</div>

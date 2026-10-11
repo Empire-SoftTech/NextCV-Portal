@@ -1,0 +1,254 @@
+<div class="p-8 max-w-6xl space-y-8">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <h1 class="text-xl font-semibold">AI usage &amp; cost</h1>
+    <div class="flex items-end gap-3 text-sm">
+      <div>
+        <label class="block text-xs text-gray-500 mb-1" for="from">From (UTC)</label>
+        <input
+          id="from"
+          type="date"
+          class="border rounded px-2 py-1"
+          [value]="from()"
+          (change)="setFrom($any($event.target).value)"
+        />
+      </div>
+      <div>
+        <label class="block text-xs text-gray-500 mb-1" for="to">To (UTC)</label>
+        <input
+          id="to"
+          type="date"
+          class="border rounded px-2 py-1"
+          [value]="to()"
+          (change)="setTo($any($event.target).value)"
+        />
+      </div>
+      <button
+        type="button"
+        (click)="refresh()"
+        [disabled]="loading()"
+        class="bg-blue-600 text-white rounded px-4 py-1.5 disabled:opacity-50"
+      >
+        {{ loading() ? 'Loading…' : 'Apply' }}
+      </button>
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="text-red-600 text-sm">{{ error() }}</p>
+  }
+
+  @if (summary(); as s) {
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="bg-white border rounded-lg p-4">
+        <p class="text-xs text-gray-500">Requests</p>
+        <p class="text-2xl font-semibold">{{ s.totals.totalRequests | number }}</p>
+        <p class="text-xs text-gray-500">
+          {{ s.totals.succeeded | number }} ok · {{ s.totals.failed | number }} failed ·
+          {{ s.totals.rejected | number }} rejected
+        </p>
+      </div>
+      <div class="bg-white border rounded-lg p-4">
+        <p class="text-xs text-gray-500">Tokens</p>
+        <p class="text-2xl font-semibold">{{ s.totals.totalTokens | number }}</p>
+        <p class="text-xs text-gray-500">
+          {{ s.totals.inputTokens | number }} in · {{ s.totals.outputTokens | number }} out
+        </p>
+      </div>
+      <div class="bg-white border rounded-lg p-4">
+        <p class="text-xs text-gray-500">Estimated cost</p>
+        <p class="text-2xl font-semibold">
+          {{ s.totals.estimatedCost | number: '1.2-4' }} {{ s.totals.currency }}
+        </p>
+        @if (s.totals.unpricedRequests > 0) {
+          <p class="text-xs text-amber-600">
+            {{ s.totals.unpricedRequests | number }} request(s) have no price configured
+          </p>
+        }
+      </div>
+      <div class="bg-white border rounded-lg p-4">
+        <p class="text-xs text-gray-500">Avg latency · credits used</p>
+        <p class="text-2xl font-semibold">{{ s.totals.avgLatencyMs | number: '1.0-0' }} ms</p>
+        <p class="text-xs text-gray-500">{{ s.totals.creditsConsumed | number }} credits</p>
+      </div>
+    </section>
+  }
+
+  <section>
+    <h2 class="font-medium mb-3">Requests per day</h2>
+    @if (daily().length === 0) {
+      <p class="text-sm text-gray-500">No usage in this window.</p>
+    } @else {
+      <div class="bg-white border rounded-lg p-4 space-y-1">
+        @for (b of daily(); track b.period) {
+          <div class="flex items-center gap-3 text-xs">
+            <span class="w-24 text-gray-500">{{ b.period }}</span>
+            <div class="flex-1 bg-gray-100 rounded h-3">
+              <div class="bg-blue-500 h-3 rounded" [style.width.%]="barWidth(b)"></div>
+            </div>
+            <span class="w-24 text-right">
+              {{ b.totals.totalRequests | number }} ·
+              {{ b.totals.estimatedCost | number: '1.2-4' }} {{ b.totals.currency }}
+            </span>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <section class="grid md:grid-cols-2 gap-6">
+    <div>
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="font-medium">Breakdown</h2>
+        <select
+          class="border rounded px-2 py-1 text-sm"
+          [value]="groupBy()"
+          (change)="setGroupBy($any($event.target).value)"
+        >
+          @for (g of groupByOptions; track g) {
+            <option [value]="g">{{ g.toLowerCase() }}</option>
+          }
+        </select>
+      </div>
+      <div class="bg-white border rounded-lg overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+              <th class="px-3 py-2">Key</th>
+              <th class="px-3 py-2 text-right">Requests</th>
+              <th class="px-3 py-2 text-right">Tokens</th>
+              <th class="px-3 py-2 text-right">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (g of groups(); track g.key) {
+              <tr class="border-t">
+                <td class="px-3 py-2">{{ g.key }}</td>
+                <td class="px-3 py-2 text-right">{{ g.totals.totalRequests | number }}</td>
+                <td class="px-3 py-2 text-right">{{ g.totals.totalTokens | number }}</td>
+                <td class="px-3 py-2 text-right">{{ g.totals.estimatedCost | number: '1.2-4' }}</td>
+              </tr>
+            } @empty {
+              <tr><td class="px-3 py-3 text-gray-500" colspan="4">No data.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="font-medium mb-3">Top users by tokens</h2>
+      <div class="bg-white border rounded-lg overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+              <th class="px-3 py-2">User</th>
+              <th class="px-3 py-2 text-right">Requests</th>
+              <th class="px-3 py-2 text-right">Tokens</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of topUsers(); track u.userId) {
+              <tr class="border-t">
+                <td class="px-3 py-2">
+                  <button
+                    type="button"
+                    class="text-blue-600 underline break-all text-left"
+                    (click)="filterRecordsByUser(u.userId)"
+                  >
+                    {{ u.userId }}
+                  </button>
+                  <a
+                    [routerLink]="['/users']"
+                    [queryParams]="{ uid: u.userId }"
+                    class="ml-2 text-xs text-gray-500 underline"
+                  >
+                    open user
+                  </a>
+                </td>
+                <td class="px-3 py-2 text-right">{{ u.totals.totalRequests | number }}</td>
+                <td class="px-3 py-2 text-right">{{ u.totals.totalTokens | number }}</td>
+              </tr>
+            } @empty {
+              <tr><td class="px-3 py-3 text-gray-500" colspan="3">No data.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-medium">Request log</h2>
+      @if (userFilter()) {
+        <p class="text-xs text-gray-600">
+          User: <span class="font-mono">{{ userFilter() }}</span>
+          <button type="button" (click)="clearUserFilter()" class="ml-2 text-blue-600 underline">
+            clear
+          </button>
+        </p>
+      }
+    </div>
+    @if (records(); as r) {
+      <div class="bg-white border rounded-lg overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+              <th class="px-3 py-2">When</th>
+              <th class="px-3 py-2">User</th>
+              <th class="px-3 py-2">Feature</th>
+              <th class="px-3 py-2">Status</th>
+              <th class="px-3 py-2">Model</th>
+              <th class="px-3 py-2 text-right">Tokens</th>
+              <th class="px-3 py-2 text-right">Latency</th>
+              <th class="px-3 py-2 text-right">Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (rec of r.content; track rec.id) {
+              <tr class="border-t">
+                <td class="px-3 py-2 whitespace-nowrap">{{ rec.createdAt | date: 'short' }}</td>
+                <td class="px-3 py-2 font-mono text-xs break-all">{{ rec.userId }}</td>
+                <td class="px-3 py-2">{{ rec.feature }}</td>
+                <td class="px-3 py-2" [class.text-red-600]="rec.status === 'FAILED'">
+                  {{ rec.status }}@if (rec.errorCode) { <span class="text-xs"> ({{ rec.errorCode }})</span> }
+                </td>
+                <td class="px-3 py-2">{{ rec.model }}</td>
+                <td class="px-3 py-2 text-right">{{ rec.totalTokens | number }}</td>
+                <td class="px-3 py-2 text-right">{{ rec.latencyMs ?? '—' }}</td>
+                <td class="px-3 py-2 text-right">
+                  {{ rec.estimatedCost != null ? (rec.estimatedCost | number: '1.2-6') : '—' }}
+                </td>
+              </tr>
+            } @empty {
+              <tr><td class="px-3 py-3 text-gray-500" colspan="8">No requests.</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="flex items-center justify-between mt-3 text-sm">
+        <span class="text-gray-500">
+          Page {{ r.page + 1 }} of {{ r.totalPages || 1 }} · {{ r.totalElements | number }} total
+        </span>
+        <div class="space-x-3">
+          <button
+            type="button"
+            class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+            [disabled]="r.page === 0"
+            (click)="loadRecords(r.page - 1)"
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+            [disabled]="r.last"
+            (click)="loadRecords(r.page + 1)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    }
+  </section>
+</div>

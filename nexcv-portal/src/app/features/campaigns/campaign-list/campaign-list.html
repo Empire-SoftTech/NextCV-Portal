@@ -1,0 +1,60 @@
+<div class="p-8 max-w-6xl">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-semibold">Push campaigns</h1>
+    <div class="flex items-center gap-4 text-sm">
+      <button type="button" (click)="load()" class="text-blue-600 underline">Refresh</button>
+      <a routerLink="/campaigns/new" class="bg-blue-600 text-white rounded px-3 py-1.5">
+        New campaign
+      </a>
+    </div>
+  </div>
+
+  @if (error()) {
+    <p class="text-red-600 text-sm mb-4">{{ error() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="text-sm text-gray-500">Loading…</p>
+  } @else if (items().length === 0 && !error()) {
+    <p class="text-sm text-gray-500">No campaigns yet.</p>
+  } @else {
+    <div class="bg-white rounded-lg border overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead class="bg-gray-50 text-left text-gray-600">
+          <tr>
+            <th class="px-3 py-2">Created</th>
+            <th class="px-3 py-2">Campaign</th>
+            <th class="px-3 py-2">Status</th>
+            <th class="px-3 py-2">Target</th>
+            <th class="px-3 py-2 text-right">Recipients</th>
+            <th class="px-3 py-2 text-right">Opens</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of items(); track c.id) {
+            <tr class="border-t align-top">
+              <td class="px-3 py-2 whitespace-nowrap">{{ c.created_at | date: 'medium' }}</td>
+              <td class="px-3 py-2">
+                <a [routerLink]="['/campaigns', c.id]" class="font-medium text-blue-600 hover:underline">
+                  {{ c.title }}
+                </a>
+                <p class="text-gray-500">{{ c.body }}</p>
+                @if (c.scheduled_at) {
+                  <p class="text-xs text-gray-400">scheduled {{ c.scheduled_at | date: 'medium' }}</p>
+                }
+              </td>
+              <td class="px-3 py-2">
+                <span class="rounded px-2 py-0.5 text-xs font-medium" [class]="statusClasses(c.status)">
+                  {{ c.status }}
+                </span>
+              </td>
+              <td class="px-3 py-2">{{ targetLabel(c.target_type, c.target_value) }}</td>
+              <td class="px-3 py-2 text-right">{{ c.recipient_count }}</td>
+              <td class="px-3 py-2 text-right">{{ c.open_count }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

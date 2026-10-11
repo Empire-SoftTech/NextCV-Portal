@@ -1,0 +1,185 @@
+<div class="p-8 max-w-6xl">
+  <h1 class="text-xl font-semibold mb-6">Registered users</h1>
+
+  @if (summary(); as s) {
+    <div class="grid grid-cols-3 gap-3 mb-5 max-w-2xl">
+      <button
+        type="button"
+        (click)="setStatus('all')"
+        class="text-left bg-white border rounded-lg p-4 hover:border-blue-400"
+        [class.border-blue-500]="filters.controls.status.value === 'all'"
+      >
+        <p class="text-xs font-medium text-gray-500 uppercase">Total users</p>
+        <p class="text-2xl font-semibold">{{ s.total ?? '—' }}</p>
+      </button>
+      <button
+        type="button"
+        (click)="setStatus('reachable')"
+        class="text-left bg-white border rounded-lg p-4 hover:border-green-400"
+        [class.border-green-500]="filters.controls.status.value === 'reachable'"
+      >
+        <p class="text-xs font-medium text-gray-500 uppercase">Active</p>
+        <p class="text-2xl font-semibold text-green-700">{{ s.reachable }}</p>
+        <p class="text-xs text-gray-400">has a reachable device</p>
+      </button>
+      <button
+        type="button"
+        (click)="setStatus('unreachable')"
+        class="text-left bg-white border rounded-lg p-4 hover:border-red-400"
+        [class.border-red-500]="filters.controls.status.value === 'unreachable'"
+      >
+        <p class="text-xs font-medium text-gray-500 uppercase">Inactive</p>
+        <p class="text-2xl font-semibold text-red-600">{{ s.unreachable ?? '—' }}</p>
+        <p class="text-xs text-gray-400">no active device</p>
+      </button>
+    </div>
+  }
+
+  <form [formGroup]="filters" (ngSubmit)="search()" class="flex flex-wrap items-end gap-3 mb-4 text-sm">
+    <div>
+      <label class="block text-xs font-medium mb-1" for="q">Search</label>
+      <input
+        id="q"
+        formControlName="query"
+        placeholder="Email, name or uid"
+        class="border rounded px-3 py-1.5 w-56"
+      />
+    </div>
+    <div>
+      <label class="block text-xs font-medium mb-1" for="status">Status</label>
+      <select id="status" formControlName="status" class="border rounded px-2 py-1.5">
+        <option value="all">All users</option>
+        <option value="reachable">Active (has a reachable device)</option>
+        <option value="unreachable">Inactive (no active device)</option>
+      </select>
+    </div>
+    <div>
+      <label class="block text-xs font-medium mb-1" for="lastActive">Last active</label>
+      <select id="lastActive" formControlName="lastActive" class="border rounded px-2 py-1.5">
+        @for (o of lastActiveOptions; track o.value) {
+          <option [value]="o.value">{{ o.label }}</option>
+        }
+      </select>
+    </div>
+    <button type="submit" class="bg-blue-600 text-white rounded px-3 py-1.5">
+      {{ filterCount() > 0 ? 'Apply (' + filterCount() + ' filter' + (filterCount() > 1 ? 's' : '') + ')' : 'Apply' }}
+    </button>
+    @if (filterCount() > 0) {
+      <button type="button" (click)="clear()" class="text-blue-600 underline py-1.5">Clear</button>
+    }
+  </form>
+
+  <div class="flex items-center gap-3 mb-4 text-sm">
+    <button
+      type="button"
+      (click)="syncSignups()"
+      [disabled]="syncing()"
+      class="border rounded px-3 py-1.5 hover:bg-gray-50 disabled:opacity-50"
+      title="Reads each user's real account-creation time from Firebase Auth"
+    >
+      {{ syncing() ? 'Syncing…' : 'Sync signup dates' }}
+    </button>
+    @if (syncMessage()) {
+      <span class="text-green-700" data-testid="sync-message">{{ syncMessage() }}</span>
+    }
+  </div>
+
+  @if (error()) {
+    <p class="text-red-600 text-sm mb-4">{{ error() }}</p>
+  }
+
+  @if (data(); as d) {
+    <p class="text-sm text-gray-600 mb-3">
+      Showing <span class="font-medium">{{ d.total }}</span> matching user{{ d.total === 1 ? '' : 's' }}
+    </p>
+
+    @if (d.users.length === 0) {
+      <p class="text-sm text-gray-500">No users match.</p>
+    } @else {
+      <div class="bg-white rounded-lg border overflow-x-auto" [class.opacity-60]="loading()">
+        <table class="w-full text-sm">
+          <thead class="bg-gray-50 text-left text-gray-600">
+            <tr>
+              <th class="px-3 py-2">User</th>
+              <th class="px-3 py-2 text-right">Devices</th>
+              <th class="px-3 py-2 text-right">Status</th>
+              <th class="px-3 py-2">Platform</th>
+              <th class="px-3 py-2">App version</th>
+              <th class="px-3 py-2">First seen</th>
+              <th class="px-3 py-2">Last seen</th>
+              <th class="px-3 py-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (u of d.users; track u.uid) {
+              <tr class="border-t">
+                <td class="px-3 py-2">
+                  <a
+                    routerLink="/users"
+                    [queryParams]="{ uid: u.uid }"
+                    class="font-medium text-blue-600 hover:underline"
+                    title="Open profile, credits and usage"
+                    >{{ u.display_name || u.email || u.uid }}</a
+                  >
+                  <p class="text-xs text-gray-400">{{ u.email }}</p>
+                </td>
+                <td class="px-3 py-2 text-right">{{ u.device_count }}</td>
+                <td class="px-3 py-2 text-right">
+                  @if (u.active_device_count === 0) {
+                    <span class="text-xs bg-red-50 text-red-600 rounded px-2 py-0.5">Inactive</span>
+                  } @else {
+                    <span class="text-xs bg-green-50 text-green-700 rounded px-2 py-0.5">{{ u.active_device_count }} active</span>
+                  }
+                </td>
+                <td class="px-3 py-2">{{ u.platform || '—' }}</td>
+                <td class="px-3 py-2">{{ u.app_version || '—' }}</td>
+                <td class="px-3 py-2 whitespace-nowrap">{{ u.first_seen | date: 'mediumDate' }}</td>
+                <td class="px-3 py-2 whitespace-nowrap">{{ u.last_seen | date: 'medium' }}</td>
+                <td class="px-3 py-2 whitespace-nowrap">
+                  <a
+                    routerLink="/users"
+                    [queryParams]="{ uid: u.uid }"
+                    class="text-blue-600 underline"
+                    title="Open this user in Users & credits"
+                    >Credits &amp; usage</a
+                  >
+                  <a
+                    routerLink="/campaigns/new"
+                    [queryParams]="{ uid: u.uid, email: u.email, name: u.display_name }"
+                    class="text-blue-600 underline ml-3"
+                    [class.pointer-events-none]="u.active_device_count === 0"
+                    [class.opacity-40]="u.active_device_count === 0"
+                    [attr.title]="u.active_device_count === 0 ? 'No active device: a push cannot be delivered' : 'Send a notification to this user'"
+                    >Send notification</a
+                  >
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex items-center gap-4 mt-3 text-sm">
+        <button
+          type="button"
+          (click)="load(d.page - 1)"
+          [disabled]="d.page <= 1 || loading()"
+          class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+        >
+          Previous
+        </button>
+        <span>Page {{ d.page }} of {{ d.totalPages }}</span>
+        <button
+          type="button"
+          (click)="load(d.page + 1)"
+          [disabled]="d.page >= d.totalPages || loading()"
+          class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+        >
+          Next
+        </button>
+      </div>
+    }
+  } @else if (loading()) {
+    <p class="text-sm text-gray-500">Loading…</p>
+  }
+</div>

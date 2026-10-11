@@ -1,0 +1,300 @@
+<div class="p-8 max-w-5xl space-y-8">
+  <h1 class="text-xl font-semibold">Users</h1>
+
+  <form
+    [formGroup]="searchForm"
+    (ngSubmit)="search()"
+    class="bg-white border rounded-lg p-4 flex flex-wrap items-end gap-3 text-sm"
+  >
+    <div>
+      <label class="block text-xs font-medium mb-1" for="by">Find by</label>
+      <select
+        id="by"
+        class="border rounded px-2 py-1.5"
+        [value]="searchBy()"
+        (change)="setSearchBy($any($event.target).value)"
+      >
+        <option value="email">Email</option>
+        <option value="uid">User ID (uid)</option>
+      </select>
+    </div>
+    <div class="flex-1 min-w-64">
+      <label class="block text-xs font-medium mb-1" for="q">
+        {{ searchBy() === 'email' ? 'Exact email address' : 'Firebase uid' }}
+      </label>
+      <input id="q" formControlName="query" class="w-full border rounded px-2 py-1.5" />
+    </div>
+    <button
+      type="submit"
+      [disabled]="searchForm.invalid || searching()"
+      class="bg-blue-600 text-white rounded px-4 py-1.5 disabled:opacity-50"
+    >
+      {{ searching() ? 'Searching…' : 'Look up' }}
+    </button>
+  </form>
+
+  @if (searchError()) {
+    <p class="text-red-600 text-sm">{{ searchError() }}</p>
+  }
+
+  @if (overview(); as o) {
+    <section class="bg-white border rounded-lg p-4">
+      <div class="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <p class="text-lg font-medium">{{ o.profile.displayName || o.profile.email || o.profile.uid }}</p>
+          <p class="text-sm text-gray-600">{{ o.profile.email }}</p>
+          <p class="text-xs text-gray-400 font-mono break-all">{{ o.profile.uid }}</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 text-xs">
+          <a
+            routerLink="/campaigns/new"
+            [queryParams]="{ uid: o.profile.uid, email: o.profile.email, name: o.profile.displayName }"
+            class="px-2 py-1 rounded bg-blue-600 text-white"
+            >Send notification</a
+          >
+          @if (o.profile.admin) {
+            <span class="px-2 py-0.5 rounded bg-purple-100 text-purple-700">admin</span>
+          }
+          @if (o.profile.disabled) {
+            <span class="px-2 py-0.5 rounded bg-red-100 text-red-700">disabled</span>
+          }
+          <span
+            class="px-2 py-0.5 rounded"
+            [class]="o.profile.emailVerified ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'"
+          >
+            {{ o.profile.emailVerified ? 'email verified' : 'email not verified' }}
+          </span>
+          @for (p of o.profile.providers; track p) {
+            <span class="px-2 py-0.5 rounded bg-gray-100 text-gray-700">{{ p }}</span>
+          }
+        </div>
+      </div>
+      <dl class="grid grid-cols-2 gap-4 mt-4 text-sm">
+        <div>
+          <dt class="text-xs text-gray-500">Created</dt>
+          <dd>{{ o.profile.createdAt ? (o.profile.createdAt | date: 'medium') : '—' }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs text-gray-500">Last sign-in</dt>
+          <dd>{{ o.profile.lastSignInAt ? (o.profile.lastSignInAt | date: 'medium') : 'never' }}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section>
+      <h2 class="font-medium mb-3">AI usage (last 30 days)</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Requests</p>
+          <p class="text-xl font-semibold">{{ o.usage.totals.totalRequests | number }}</p>
+          <p class="text-xs text-gray-500">
+            {{ o.usage.totals.succeeded | number }} ok · {{ o.usage.totals.failed | number }} failed
+          </p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Tokens</p>
+          <p class="text-xl font-semibold">{{ o.usage.totals.totalTokens | number }}</p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Estimated cost</p>
+          <p class="text-xl font-semibold">
+            {{ o.usage.totals.estimatedCost | number: '1.2-4' }} {{ o.usage.totals.currency }}
+          </p>
+        </div>
+        <div class="bg-white border rounded-lg p-4">
+          <p class="text-xs text-gray-500">Credits used</p>
+          <p class="text-xl font-semibold">{{ o.usage.totals.creditsConsumed | number }}</p>
+        </div>
+      </div>
+    </section>
+
+    @if (credits(); as c) {
+      <section class="space-y-4">
+        <h2 class="font-medium">Credits · {{ c.status.feature }}</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Access level</p>
+            <p class="text-xl font-semibold">{{ c.status.accessLevel }}</p>
+            <p class="text-xs text-gray-500">Next use: {{ c.status.nextAction }}</p>
+            @if (c.status.denialReason) {
+              <p class="text-xs text-red-600">{{ c.status.denialReason }}</p>
+            }
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Included left</p>
+            <p class="text-xl font-semibold">
+              {{ c.status.remainingIncluded }} / {{ c.status.includedLimit }}
+            </p>
+            @if (c.status.periodEnd) {
+              <p class="text-xs text-gray-500">refills {{ c.status.periodEnd | date: 'mediumDate' }}</p>
+            }
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Ad-earned left</p>
+            <p class="text-xl font-semibold">{{ c.adCredits.remaining }}</p>
+            <p class="text-xs text-gray-500">
+              {{ c.adCredits.granted }} granted · {{ c.adCredits.used }} used
+            </p>
+          </div>
+          <div class="bg-white border rounded-lg p-4">
+            <p class="text-xs text-gray-500">Free turns today</p>
+            <p class="text-xl font-semibold">
+              {{ c.status.freeUsesToday }} / {{ c.status.freeDailyLimit }}
+            </p>
+          </div>
+        </div>
+
+        @if (c.tiers.length > 0) {
+          <div class="bg-white border rounded-lg overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="bg-gray-50 text-left text-gray-600">
+                <tr>
+                  <th class="px-3 py-2">Tier row</th>
+                  <th class="px-3 py-2 text-right">Included used / limit</th>
+                  <th class="px-3 py-2 text-right">Free ladder count</th>
+                  <th class="px-3 py-2">Period</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of c.tiers; track t.accessLevel) {
+                  <tr class="border-t">
+                    <td class="px-3 py-2">{{ t.accessLevel }}</td>
+                    <td class="px-3 py-2 text-right">{{ t.includedUsed }} / {{ t.includedLimit }}</td>
+                    <td class="px-3 py-2 text-right">{{ t.freeUsageCount }}</td>
+                    <td class="px-3 py-2 whitespace-nowrap">
+                      {{ t.periodStart | date: 'mediumDate' }} →
+                      {{ t.periodEnd ? (t.periodEnd | date: 'mediumDate') : 'open' }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+
+        <form
+          [formGroup]="adjustForm"
+          (ngSubmit)="adjust()"
+          class="bg-white border rounded-lg p-4 grid grid-cols-6 gap-4 text-sm"
+        >
+          <p class="col-span-6 text-xs text-gray-500">
+            Adjusts the ad-earned pool only. Every change is written to the ledger with your account and the
+            reason.
+          </p>
+          <div class="col-span-2">
+            <label class="block text-xs font-medium mb-1" for="dir">Action</label>
+            <select id="dir" formControlName="direction" class="w-full border rounded px-2 py-1.5">
+              <option value="GRANT">Grant credits</option>
+              <option value="REVOKE">Revoke credits</option>
+            </select>
+          </div>
+          <div class="col-span-1">
+            <label class="block text-xs font-medium mb-1" for="amt">Amount</label>
+            <input
+              id="amt"
+              type="number"
+              min="1"
+              [max]="maxAdjustment"
+              formControlName="amount"
+              class="w-full border rounded px-2 py-1.5"
+            />
+          </div>
+          <div class="col-span-3">
+            <label class="block text-xs font-medium mb-1" for="reason">Reason (required)</label>
+            <input
+              id="reason"
+              formControlName="reason"
+              maxlength="255"
+              class="w-full border rounded px-2 py-1.5"
+              placeholder="e.g. Ticket 123: failed request not refunded"
+            />
+          </div>
+          <div class="col-span-6 flex items-center gap-4">
+            <button
+              type="submit"
+              [disabled]="adjustForm.invalid || adjusting()"
+              class="bg-blue-600 text-white rounded px-4 py-2 disabled:opacity-50"
+            >
+              {{ adjusting() ? 'Saving…' : 'Apply' }}
+            </button>
+            @if (adjustError()) {
+              <span class="text-red-600">{{ adjustError() }}</span>
+            }
+            @if (adjustSuccess()) {
+              <span class="text-green-700">{{ adjustSuccess() }}</span>
+            }
+          </div>
+        </form>
+      </section>
+    }
+
+    @if (ledger(); as l) {
+      <section>
+        <h2 class="font-medium mb-3">Credit ledger</h2>
+        <div class="bg-white border rounded-lg overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-left text-gray-600">
+              <tr>
+                <th class="px-3 py-2">When</th>
+                <th class="px-3 py-2">Type</th>
+                <th class="px-3 py-2">Source</th>
+                <th class="px-3 py-2 text-right">Amount</th>
+                <th class="px-3 py-2">By / note</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (e of l.content; track e.id) {
+                <tr class="border-t align-top">
+                  <td class="px-3 py-2 whitespace-nowrap">{{ e.createdAt | date: 'medium' }}</td>
+                  <td
+                    class="px-3 py-2"
+                    [class.text-green-700]="e.entryType === 'ADMIN_GRANT' || e.entryType === 'AD_GRANT'"
+                    [class.text-red-600]="e.entryType === 'ADMIN_REVOKE'"
+                  >
+                    {{ e.entryType }}
+                  </td>
+                  <td class="px-3 py-2">{{ e.source }}</td>
+                  <td class="px-3 py-2 text-right">{{ e.amount }}</td>
+                  <td class="px-3 py-2">
+                    @if (e.actorId) {
+                      <span class="font-mono text-xs break-all">{{ e.actorId }}</span>
+                    }
+                    @if (e.note) {
+                      <p class="text-gray-600">{{ e.note }}</p>
+                    }
+                  </td>
+                </tr>
+              } @empty {
+                <tr><td class="px-3 py-3 text-gray-500" colspan="5">No credit movements yet.</td></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="flex items-center justify-between mt-3 text-sm">
+          <span class="text-gray-500">
+            Page {{ l.page + 1 }} of {{ l.totalPages || 1 }} · {{ l.totalElements | number }} total
+          </span>
+          <div class="space-x-3">
+            <button
+              type="button"
+              class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+              [disabled]="l.page === 0"
+              (click)="goToLedgerPage(l.page - 1)"
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              class="text-blue-600 underline disabled:opacity-40 disabled:no-underline"
+              [disabled]="l.last"
+              (click)="goToLedgerPage(l.page + 1)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      </section>
+    }
+  }
+</div>
