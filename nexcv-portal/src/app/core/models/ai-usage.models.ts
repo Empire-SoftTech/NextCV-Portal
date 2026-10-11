@@ -34,6 +34,9 @@ export interface UsageGroup {
 
 export interface UserTotals {
   userId: string;
+  /** Null when the user has no registered device; show email or uid instead. */
+  displayName?: string | null;
+  email?: string | null;
   totals: UsageTotals;
 }
 
@@ -42,6 +45,8 @@ export type GroupBy = 'PROVIDER' | 'MODEL' | 'FEATURE';
 export interface UsageRecord {
   id: string;
   userId?: string;
+  displayName?: string | null;
+  email?: string | null;
   feature: string;
   requestType: string;
   status: string;

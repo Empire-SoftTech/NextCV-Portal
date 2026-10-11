@@ -154,9 +154,13 @@
                     type="button"
                     class="text-blue-600 underline break-all text-left"
                     (click)="filterRecordsByUser(u.userId)"
+                    [attr.title]="u.userId"
                   >
-                    {{ u.userId }}
+                    {{ u.displayName || u.email || u.userId }}
                   </button>
+                  @if (u.displayName && u.email) {
+                    <p class="text-xs text-gray-400">{{ u.email }}</p>
+                  }
                   <a
                     [routerLink]="['/users']"
                     [queryParams]="{ uid: u.userId }"
@@ -208,7 +212,16 @@
             @for (rec of r.content; track rec.id) {
               <tr class="border-t">
                 <td class="px-3 py-2 whitespace-nowrap">{{ rec.createdAt | date: 'short' }}</td>
-                <td class="px-3 py-2 font-mono text-xs break-all">{{ rec.userId }}</td>
+                <td class="px-3 py-2" [attr.title]="rec.userId">
+                  @if (rec.displayName || rec.email) {
+                    <p class="font-medium">{{ rec.displayName || rec.email }}</p>
+                    @if (rec.displayName && rec.email) {
+                      <p class="text-xs text-gray-400">{{ rec.email }}</p>
+                    }
+                  } @else {
+                    <span class="font-mono text-xs break-all">{{ rec.userId }}</span>
+                  }
+                </td>
                 <td class="px-3 py-2">{{ rec.feature }}</td>
                 <td class="px-3 py-2" [class.text-red-600]="rec.status === 'FAILED'">
                   {{ rec.status }}@if (rec.errorCode) { <span class="text-xs"> ({{ rec.errorCode }})</span> }
