@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/nexcv-portal/browser",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
