@@ -80,8 +80,8 @@ export interface AppUsersPage {
   total: number;
   /** Users with an active device (search/date filters only; ignores the status filter). */
   reachable: number;
-  /** Users with no active device. Absent when answered by the Supabase fallback. */
-  unreachable?: number;
+  /** Users with no active device (search/date filters only; ignores the status filter). */
+  unreachable: number;
   page: number;
   pageSize: number;
   totalPages: number;

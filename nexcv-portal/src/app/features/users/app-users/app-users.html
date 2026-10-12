@@ -10,7 +10,7 @@
         [class.border-blue-500]="filters.controls.status.value === 'all'"
       >
         <p class="text-xs font-medium text-gray-500 uppercase">Total users</p>
-        <p class="text-2xl font-semibold">{{ s.total ?? '—' }}</p>
+        <p class="text-2xl font-semibold">{{ s.total }}</p>
       </button>
       <button
         type="button"
@@ -29,7 +29,7 @@
         [class.border-red-500]="filters.controls.status.value === 'unreachable'"
       >
         <p class="text-xs font-medium text-gray-500 uppercase">Inactive</p>
-        <p class="text-2xl font-semibold text-red-600">{{ s.unreachable ?? '—' }}</p>
+        <p class="text-2xl font-semibold text-red-600">{{ s.unreachable }}</p>
         <p class="text-xs text-gray-400">no active device</p>
       </button>
     </div>

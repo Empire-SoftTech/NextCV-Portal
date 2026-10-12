@@ -66,11 +66,7 @@ export class AppUsers implements OnInit {
   /** Total / active / inactive for the current search + last-active filters, independent of the status filter. */
   readonly summary = computed(() => {
     const d = this.data();
-    if (!d) return null;
-    const status = this.filters.controls.status.value;
-    // The Supabase fallback does not send `unreachable`; derive it only when `total` is unfiltered by status.
-    const unreachable = d.unreachable ?? (status === 'all' ? d.total - d.reachable : null);
-    return { reachable: d.reachable, unreachable, total: unreachable === null ? null : d.reachable + unreachable };
+    return d ? { reachable: d.reachable, unreachable: d.unreachable, total: d.reachable + d.unreachable } : null;
   });
 
   readonly filterCount = signal(0);
