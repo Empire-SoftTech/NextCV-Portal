@@ -1,7 +1,6 @@
 export const environment = {
   production: true,
   apiBaseUrl: 'https://api.nextcvbuilder.online/api/admin/v1',
-  supabaseFunctionsUrl: 'https://ufluyrhwepywjrjawbem.supabase.co/functions/v1',
   firebaseConfig: {
     apiKey: 'AIzaSyCbN5rD4f930jnm3P4c6Y6EIvRRemG-VGA',
     authDomain: 'nexcv1-10ec4.firebaseapp.com',

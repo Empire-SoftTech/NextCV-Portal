@@ -108,8 +108,7 @@ export class CampaignCreate implements OnInit, OnDestroy {
     }
     this.uploading.set(true);
     try {
-      const base64 = await this.readAsBase64(file);
-      this.imageUrl.set((await firstValueFrom(this.campaigns.uploadImage(base64, file.type))).url);
+      this.imageUrl.set((await firstValueFrom(this.campaigns.uploadImage(file))).url);
     } catch (e) {
       this.errorMsg.set(apiErrorMessage(e, 'Image upload failed.'));
     } finally {
@@ -119,15 +118,6 @@ export class CampaignCreate implements OnInit, OnDestroy {
 
   removeImage(): void {
     this.imageUrl.set(null);
-  }
-
-  private readAsBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result).split(',')[1] ?? '');
-      reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
-    });
   }
 
   private buildDraft(status: 'draft' | 'queued'): CampaignDraft {

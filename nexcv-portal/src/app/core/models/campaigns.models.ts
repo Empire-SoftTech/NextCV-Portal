@@ -1,4 +1,4 @@
-/** Row shapes are SNAKE_CASE on purpose: Spring mirrors the Supabase Edge Function payloads. */
+/** Row shapes are SNAKE_CASE on purpose: they match the backend's campaign and app-user payloads. */
 export type CampaignStatus = 'draft' | 'queued' | 'sending' | 'sent' | 'failed';
 export type CampaignTargetType = 'all' | 'topic' | 'user';
 
